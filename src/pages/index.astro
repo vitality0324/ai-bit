@@ -1,0 +1,245 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import PostCard from '../components/PostCard.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../consts';
+import { collectTags, readingTime, sortPosts } from '../lib/utils';
+import { withBase } from '../lib/url';
+
+const posts = sortPosts(await getCollection('posts'));
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const latest = posts
+  .filter((p) => p.id !== featured?.id)
+  .slice(0, SITE.homePostCount);
+const tags = collectTags(posts).slice(0, 12);
+
+const totalMinutes = posts.reduce((sum, p) => sum + readingTime(p.body), 0);
+---
+
+<BaseLayout title={SITE.title} description={SITE.description}>
+  <section class="hero">
+    <div class="hero__glow" aria-hidden="true"></div>
+    <div class="container hero__inner">
+      <span class="eyebrow fade-in">
+        <Icon name="sparkles" size={15} />
+        {SITE.title} · 思考与记录
+      </span>
+
+      <h1 class="hero__title fade-in">
+        用碎片，拼出<br />
+        <span class="hero__accent">完整的认知地图</span>
+      </h1>
+
+      <p class="hero__intro fade-in">{SITE.intro}</p>
+
+      <div class="hero__actions fade-in">
+        <a class="btn btn--primary" href={withBase('/posts')}>
+          开始阅读
+          <Icon name="arrow-right" size={17} />
+        </a>
+        <a class="btn btn--ghost" href={withBase('/about')}>关于我</a>
+      </div>
+
+      <dl class="hero__stats fade-in">
+        <div>
+          <dt>文章</dt>
+          <dd>{posts.length}</dd>
+        </div>
+        <div>
+          <dt>标签</dt>
+          <dd>{collectTags(posts).length}</dd>
+        </div>
+        <div>
+          <dt>约阅读</dt>
+          <dd>{totalMinutes} 分钟</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  {
+    featured && (
+      <section class="section" style="padding-top: 0;">
+        <div class="container">
+          <FeatureCard post={featured} />
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Latest</span>
+          <h2>最新文章</h2>
+        </div>
+        <a class="btn btn--ghost" href={withBase('/posts')}>
+          查看全部
+          <Icon name="arrow-right" size={16} />
+        </a>
+      </div>
+
+      {
+        latest.length > 0 ? (
+          <div class="grid grid--3">
+            {latest.map((post, i) => (
+              <div class="fade-in" style={`animation-delay: ${i * 60}ms`}>
+                <PostCard post={post} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="empty-state">
+            <p>还没有文章。在 <code>src/content/posts/</code> 里新建一个 Markdown 文件就能开始写作。</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  {
+    tags.length > 0 && (
+      <section class="section" style="padding-top: 0;">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">Topics</span>
+              <h2>按标签浏览</h2>
+            </div>
+          </div>
+          <div class="tag-list">
+            {tags.map(({ tag, count }) => (
+              <a class="tag tag--lg" href={withBase(`/tags/${encodeURIComponent(tag)}`)}>
+                {tag}
+                <span class="tag__count">{count}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(4rem, 11vw, 8rem) clamp(3rem, 7vw, 5rem);
+    overflow: hidden;
+  }
+
+  .hero__glow {
+    position: absolute;
+    inset: -30% -10% auto -10%;
+    height: 120%;
+    background-image: radial-gradient(
+        38rem 26rem at 18% 12%,
+        color-mix(in oklab, var(--accent) 26%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        34rem 24rem at 82% 6%,
+        color-mix(in oklab, var(--accent-3) 24%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        30rem 22rem at 60% 60%,
+        color-mix(in oklab, var(--accent-2) 18%, transparent),
+        transparent 65%
+      );
+    filter: blur(6px);
+    opacity: 0.9;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, #000 45%, transparent 92%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 92%);
+  }
+  :root[data-theme='dark'] .hero__glow {
+    opacity: 0.55;
+  }
+
+  .hero__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.4rem;
+    max-width: 60rem;
+  }
+
+  .hero__title {
+    font-size: clamp(2.3rem, 7vw, 4.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    font-weight: 800;
+  }
+
+  .hero__accent {
+    background-image: linear-gradient(
+      100deg,
+      var(--accent),
+      var(--accent-2) 45%,
+      var(--accent-3)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero__intro {
+    max-width: 46ch;
+    font-size: clamp(1.03rem, 1.8vw, 1.18rem);
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 0.4rem;
+  }
+
+  .hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1.5rem, 5vw, 3.25rem);
+    margin-top: 1.6rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--border);
+    width: 100%;
+    max-width: 44rem;
+  }
+  .hero__stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .hero__stats dt {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .hero__stats dd {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .tag--lg {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  .tag__count {
+    margin-left: 0.1rem;
+    padding: 0.05rem 0.42rem;
+    border-radius: var(--radius-full);
+    background: color-mix(in oklab, var(--accent) 16%, transparent);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

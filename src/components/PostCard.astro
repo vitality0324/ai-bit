@@ -1,0 +1,54 @@
+---
+import type { Post } from '../lib/utils';
+import { formatDate, readingTime } from '../lib/utils';
+import { withBase } from '../lib/url';
+
+interface Props {
+  post: Post;
+  showCover?: boolean;
+}
+
+const { post, showCover = true } = Astro.props;
+const { title, description, pubDate, tags, cover } = post.data;
+const href = withBase(`/posts/${post.id}`);
+const coverSrc = cover
+  ? /^https?:\/\//.test(cover)
+    ? cover
+    : withBase(cover)
+  : undefined;
+const minutes = readingTime(post.body);
+---
+
+<article class="card">
+  {
+    showCover && coverSrc && (
+      <div class="card__cover">
+        <img src={coverSrc} alt="" loading="lazy" decoding="async" />
+      </div>
+    )
+  }
+
+  <div class="card__body">
+    <div class="card__meta">
+      <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+      <span class="dot" aria-hidden="true" />
+      <span>约 {minutes} 分钟</span>
+    </div>
+
+    <h3 class="card__title">
+      <a href={href}>{title}</a>
+    </h3>
+
+    {description && <p class="card__excerpt">{description}</p>}
+
+    {
+      tags.length > 0 && (
+        <div class="tag-list card__tags">
+          {tags.slice(0, 3).map((tag) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</article>

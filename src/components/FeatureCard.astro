@@ -1,0 +1,56 @@
+---
+import type { Post } from '../lib/utils';
+import { formatDate, readingTime } from '../lib/utils';
+import { withBase } from '../lib/url';
+import Icon from './Icon.astro';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags, cover } = post.data;
+const href = withBase(`/posts/${post.id}`);
+const coverSrc = cover
+  ? /^https?:\/\//.test(cover)
+    ? cover
+    : withBase(cover)
+  : undefined;
+const minutes = readingTime(post.body);
+---
+
+<article class="feature-card">
+  <div class="feature-card__media">
+    {coverSrc && <img src={coverSrc} alt="" loading="lazy" decoding="async" />}
+  </div>
+
+  <div class="feature-card__body">
+    <span class="eyebrow">
+      <Icon name="sparkles" size={15} />
+      精选文章
+    </span>
+
+    <h3>
+      <a href={href}>{title}</a>
+    </h3>
+
+    {description && <p>{description}</p>}
+
+    <div class="card__meta">
+      <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+      <span class="dot" aria-hidden="true" />
+      <span>约 {minutes} 分钟</span>
+    </div>
+
+    <div class="tag-list">
+      {tags.slice(0, 4).map((tag) => <span class="tag">{tag}</span>)}
+    </div>
+
+    <div>
+      <a class="btn btn--primary" href={href}>
+        阅读全文
+        <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { withBase } from '../lib/url';
+---
+
+<BaseLayout title="页面走丢了" description="没有找到你要访问的页面。">
+  <section class="notfound">
+    <div class="container notfound__inner">
+      <p class="notfound__code" aria-hidden="true">404</p>
+      <h1>这个页面走丢了</h1>
+      <p class="notfound__text">
+        你要找的内容可能已经被移动或删除了。不如回到首页，或者去看看全部文章？
+      </p>
+      <div class="notfound__actions">
+        <a class="btn btn--primary" href={withBase('/')}>
+          回到首页
+          <Icon name="arrow-right" size={16} />
+        </a>
+        <a class="btn btn--ghost" href={withBase('/posts')}>浏览文章</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    display: grid;
+    place-items: center;
+    min-height: 68vh;
+    padding-block: 4rem;
+  }
+  .notfound__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    max-width: 34rem;
+  }
+  .notfound__code {
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    background-image: linear-gradient(100deg, var(--accent), var(--accent-2), var(--accent-3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .notfound h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+  .notfound__text {
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    justify-content: center;
+    margin-top: 0.75rem;
+  }
+</style>

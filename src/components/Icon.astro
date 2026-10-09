@@ -1,0 +1,24 @@
+---
+import { FILLED_ICONS, ICON_PATHS, type IconName } from '../lib/icons';
+
+interface Props {
+  name: IconName;
+  size?: number | string;
+  class?: string;
+}
+
+const { name, size = 20, class: className } = Astro.props;
+const s = typeof size === 'number' ? `${size}` : size;
+const isFilled = FILLED_ICONS.has(name);
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={s}
+  height={s}
+  viewBox="0 0 24 24"
+  fill={isFilled ? 'currentColor' : 'none'}
+  aria-hidden="true"
+  class={className}
+  set:html={ICON_PATHS[name]}
+/>

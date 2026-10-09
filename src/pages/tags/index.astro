@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { collectTags, sortPosts } from '../../lib/utils';
+import { withBase } from '../../lib/url';
+
+const posts = sortPosts(await getCollection('posts'));
+const tags = collectTags(posts);
+const maxCount = Math.max(1, ...tags.map((t) => t.count));
+---
+
+<BaseLayout title="标签" description="按标签浏览全部文章。">
+  <section class="section">
+    <div class="container">
+      <header class="page-head fade-in">
+        <span class="eyebrow">Topics</span>
+        <h1>标签</h1>
+        <p>共 {tags.length} 个标签，点击任意标签查看相关文章。</p>
+      </header>
+
+      {
+        tags.length > 0 ? (
+          <ul class="cloud">
+            {tags.map(({ tag, count }) => {
+              const scale = 0.85 + (count / maxCount) * 0.75;
+              return (
+                <li>
+                  <a
+                    class="cloud__item"
+                    href={withBase(`/tags/${encodeURIComponent(tag)}`)}
+                    style={`font-size: ${scale}rem`}
+                  >
+                    <span class="cloud__name">{tag}</span>
+                    <span class="cloud__count">{count}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <div class="empty-state"><p>还没有任何标签。</p></div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2.5rem;
+  }
+  .page-head h1 {
+    font-size: clamp(1.9rem, 5vw, 2.75rem);
+    letter-spacing: -0.035em;
+  }
+  .page-head p {
+    color: var(--text-muted);
+  }
+
+  .cloud {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    align-items: baseline;
+  }
+
+  .cloud__item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    padding: 0.55rem 1.05rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--surface);
+    color: var(--text-soft);
+    font-weight: 600;
+    line-height: 1.2;
+    transition: all 0.28s var(--ease);
+  }
+  .cloud__item:hover {
+    color: var(--accent);
+    border-color: color-mix(in oklab, var(--accent) 50%, var(--border));
+    background: var(--accent-soft);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .cloud__count {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .cloud__item:hover .cloud__count {
+    color: var(--accent);
+  }
+</style>

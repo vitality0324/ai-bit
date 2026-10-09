@@ -1,0 +1,76 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只跑一个部署，避免并发覆盖
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve site URL and base path
+        # 默认按 GitHub Pages 项目站推导；如需自定义域名，
+        # 在仓库 Settings → Secrets and variables → Actions → Variables 里设置
+        # SITE_URL（如 https://blog.example.com）和 BASE_PATH（如 / 或留空）。
+        env:
+          VAR_SITE_URL: ${{ vars.SITE_URL }}
+          VAR_BASE_PATH: ${{ vars.BASE_PATH }}
+        run: |
+          OWNER="${{ github.repository_owner }}"
+          REPO="${{ github.event.repository.name }}"
+
+          SITE="${VAR_SITE_URL:-https://${OWNER}.github.io}"
+
+          if [ -n "${VAR_BASE_PATH}" ]; then
+            BASE="${VAR_BASE_PATH}"
+          elif [ "${REPO}" = "${OWNER}.github.io" ]; then
+            BASE="/"
+          else
+            BASE="/${REPO}"
+          fi
+
+          echo "SITE_URL=${SITE}" >> "$GITHUB_ENV"
+          echo "BASE_PATH=${BASE}" >> "$GITHUB_ENV"
+          echo "→ SITE_URL=${SITE}  BASE_PATH=${BASE}"
+
+      - name: Build site
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

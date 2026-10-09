@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import Icon from '../../components/Icon.astro';
+import { sortPosts } from '../../lib/utils';
+import { withBase } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const visible = posts.filter((p) => import.meta.env.DEV || !p.data.draft);
+  const tags = [...new Set(visible.flatMap((p) => p.data.tags))];
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: sortPosts(visible.filter((p) => p.data.tags.includes(tag))),
+    },
+  }));
+}
+
+interface Props {
+  tag: string;
+  posts: Awaited<ReturnType<typeof getCollection<'posts'>>>;
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`#${tag}`} description={`标签「${tag}」下的全部文章。`}>
+  <section class="section">
+    <div class="container">
+      <header class="page-head fade-in">
+        <a class="back-link" href={withBase('/tags')}>
+          <Icon name="arrow-left" size={16} />
+          全部标签
+        </a>
+        <h1>
+          <span class="hash" aria-hidden="true">#</span>{tag}
+        </h1>
+        <p>共 {posts.length} 篇文章</p>
+      </header>
+
+      <div class="grid grid--3">
+        {
+          posts.map((post, i) => (
+            <div class="fade-in" style={`animation-delay: ${i * 60}ms`}>
+              <PostCard post={post} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2.5rem;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    align-self: flex-start;
+    font-size: 0.87rem;
+    font-weight: 550;
+    color: var(--text-muted);
+    padding: 0.35rem 0.75rem 0.35rem 0.5rem;
+    border-radius: var(--radius-full);
+    transition: color 0.2s, background 0.2s, transform 0.3s var(--ease);
+  }
+  .back-link:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateX(-3px);
+  }
+  .page-head h1 {
+    font-size: clamp(1.9rem, 5vw, 2.75rem);
+    letter-spacing: -0.035em;
+  }
+  .hash {
+    color: var(--accent);
+    font-weight: 800;
+  }
+  .page-head p {
+    color: var(--text-muted);
+  }
+</style>

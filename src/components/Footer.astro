@@ -1,0 +1,37 @@
+---
+import { COPYRIGHT_START_YEAR, SITE, SOCIAL_LINKS } from '../consts';
+import { withBase } from '../lib/url';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+const range =
+  year > COPYRIGHT_START_YEAR ? `${COPYRIGHT_START_YEAR}–${year}` : `${year}`;
+---
+
+<footer class="site-footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <strong>{SITE.title}</strong>
+      <span>© {range} {SITE.author} · 用心记录每一个想法</span>
+    </div>
+
+    <div class="footer__social">
+      {
+        SOCIAL_LINKS.map((social) => (
+          <a
+            href={social.href}
+            target={social.href.startsWith('http') ? '_blank' : undefined}
+            rel="noopener noreferrer"
+          >
+            <Icon name={social.icon} size={16} />
+            <span>{social.label}</span>
+          </a>
+        ))
+      }
+      <a href={withBase('/rss.xml')}>
+        <Icon name="rss" size={16} />
+        <span>RSS</span>
+      </a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,44 @@
+---
+/**
+ * 在页面渲染前同步确定主题，避免深色模式下的白屏闪烁（FOUC）。
+ * 这段脚本必须内联在 <head> 中并阻塞执行，因此不参与打包。
+ *
+ * 优先级：URL 参数 ?theme=dark|light  >  localStorage  >  系统偏好
+ */
+---
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const apply = (theme) => {
+      root.dataset.theme = theme;
+      root.style.colorScheme = theme;
+    };
+
+    let theme = null;
+
+    try {
+      const fromUrl = new URLSearchParams(location.search).get('theme');
+      if (fromUrl === 'dark' || fromUrl === 'light') theme = fromUrl;
+    } catch (e) {
+      /* ignore */
+    }
+
+    if (!theme) {
+      try {
+        const stored = localStorage.getItem('theme');
+        if (stored === 'dark' || stored === 'light') theme = stored;
+      } catch (e) {
+        /* localStorage 可能被禁用 */
+      }
+    }
+
+    if (!theme) {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+    }
+
+    apply(theme);
+  })();
+</script>

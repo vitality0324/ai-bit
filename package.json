@@ -1,0 +1,22 @@
+{
+  "name": "ai-bit",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "new": "node scripts/new-post.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.14.1",
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/mdx": "^4.3.6",
+    "@astrojs/rss": "^4.0.12",
+    "@astrojs/sitemap": "^3.6.0",
+    "typescript": "^5.9.2"
+  }
+}

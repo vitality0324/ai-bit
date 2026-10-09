@@ -1,0 +1,223 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import Icon from '../../components/Icon.astro';
+import { collectTags, sortPosts } from '../../lib/utils';
+
+const posts = sortPosts(await getCollection('posts'));
+const tags = collectTags(posts);
+---
+
+<BaseLayout title="文章" description="所有文章的归档，支持按标签筛选与关键词搜索。">
+  <section class="section">
+    <div class="container">
+      <header class="page-head fade-in">
+        <span class="eyebrow">Archive</span>
+        <h1>全部文章</h1>
+        <p>
+          共 {posts.length} 篇 · 覆盖 {tags.length} 个标签。可以用关键词或标签快速筛选。
+        </p>
+      </header>
+
+      {
+        posts.length > 0 && (
+          <div class="filters" id="filters">
+            <div class="search">
+              <Icon name="search" size={18} />
+              <input
+                type="search"
+                id="search-input"
+                placeholder="搜索标题或摘要…"
+                aria-label="搜索文章"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="pill-row" id="tag-filters">
+              <button class="pill is-active" type="button" data-tag="">
+                全部
+                <span class="pill__num">{posts.length}</span>
+              </button>
+              {tags.map(({ tag, count }) => (
+                <button class="pill" type="button" data-tag={tag}>
+                  {tag}
+                  <span class="pill__num">{count}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      <div class="grid grid--3" id="post-grid">
+        {
+          posts.map((post, i) => (
+            <div
+              class="fade-in post-item"
+              style={`animation-delay: ${Math.min(i, 8) * 50}ms`}
+              data-tags={post.data.tags.join('|')}
+              data-search={`${post.data.title} ${post.data.description} ${post.data.tags.join(' ')}`.toLowerCase()}
+            >
+              <PostCard post={post} />
+            </div>
+          ))
+        }
+      </div>
+
+      {
+        posts.length === 0 && (
+          <div class="empty-state">
+            <p>还没有文章。在 src/content/posts/ 里新建一个 Markdown 文件就能开始写作。</p>
+          </div>
+        )
+      }
+
+      <p class="no-result" id="no-result" hidden>没有找到匹配的文章，换个关键词试试 🔍</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const tagFilters = document.getElementById('tag-filters');
+  const noResult = document.getElementById('no-result');
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.post-item'));
+
+  let activeTag = '';
+
+  const apply = () => {
+    const q = (searchInput?.value ?? '').trim().toLowerCase();
+    let visible = 0;
+
+    items.forEach((el) => {
+      const tags = (el.dataset.tags ?? '').split('|').filter(Boolean);
+      const haystack = el.dataset.search ?? '';
+      const matchesTag = !activeTag || tags.includes(activeTag);
+      const matchesQuery = !q || haystack.includes(q);
+      const show = matchesTag && matchesQuery;
+      el.hidden = !show;
+      if (show) visible += 1;
+    });
+
+    if (noResult) noResult.hidden = visible !== 0 || items.length === 0;
+  };
+
+  searchInput?.addEventListener('input', apply);
+
+  tagFilters?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.pill');
+    if (!btn) return;
+    activeTag = btn.dataset.tag ?? '';
+    tagFilters
+      .querySelectorAll('.pill')
+      .forEach((p) => p.classList.toggle('is-active', p === btn));
+    apply();
+  });
+
+  // 支持通过 ?tag=xxx 直接进入某个标签的筛选结果
+  const params = new URLSearchParams(location.search);
+  const initialTag = params.get('tag');
+  if (initialTag) {
+    const target = tagFilters?.querySelector<HTMLButtonElement>(
+      `.pill[data-tag="${CSS.escape(initialTag)}"]`
+    );
+    target?.click();
+  }
+</script>
+
+<style>
+  .page-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2.25rem;
+  }
+  .page-head h1 {
+    font-size: clamp(1.9rem, 5vw, 2.75rem);
+    letter-spacing: -0.035em;
+  }
+  .page-head p {
+    color: var(--text-muted);
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    max-width: 26rem;
+    padding: 0.7rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    color: var(--text-faint);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+  .search input {
+    flex: 1;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  .search input::placeholder {
+    color: var(--text-faint);
+  }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 550;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.22s var(--ease);
+  }
+  .pill:hover {
+    color: var(--text);
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+  }
+  .pill.is-active {
+    color: var(--accent-contrast);
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 6px 18px -8px var(--accent);
+  }
+  :root[data-theme='dark'] .pill.is-active {
+    color: #0a0b0e;
+  }
+  .pill__num {
+    font-size: 0.72rem;
+    opacity: 0.7;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .no-result {
+    margin-top: 2.5rem;
+    text-align: center;
+    color: var(--text-muted);
+  }
+</style>
