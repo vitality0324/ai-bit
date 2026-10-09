@@ -105,7 +105,7 @@ export const SITE = {
   title: 'AI Bit',
   description: '记录关于 AI、工程与产品的思考碎片。',
   intro: '首页大标题下面那段介绍…',
-  author: 'Zhang Xin',
+  author: 'vitality0324',
   lang: 'zh-CN',
 };
 
