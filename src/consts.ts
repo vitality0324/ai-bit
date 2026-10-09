@@ -29,8 +29,12 @@ export const NAV_LINKS = [
 
 /** 社交 / 外链，按需增删；留空的会自动隐藏 */
 export const SOCIAL_LINKS = [
-  { href: 'https://github.com/', label: 'GitHub', icon: 'github' },
-  { href: 'mailto:hello@example.com', label: 'Email', icon: 'mail' },
+  { href: 'https://github.com/vitality0324', label: 'GitHub', icon: 'github' },
+  {
+    href: 'mailto:vitality0324@users.noreply.github.com',
+    label: 'Email',
+    icon: 'mail',
+  },
 ] as const;
 
 /** 页脚版权起始年份 */
