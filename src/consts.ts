@@ -31,7 +31,7 @@ export const NAV_LINKS = [
 export const SOCIAL_LINKS = [
   { href: 'https://github.com/vitality0324', label: 'GitHub', icon: 'github' },
   {
-    href: 'mailto:vitality0324@users.noreply.github.com',
+    href: 'mailto:vitality0324@hotmail.com',
     label: 'Email',
     icon: 'mail',
   },
