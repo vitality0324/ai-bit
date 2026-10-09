@@ -56,6 +56,9 @@ jobs:
           echo "BASE_PATH=${BASE}" >> "$GITHUB_ENV"
           echo "→ SITE_URL=${SITE}  BASE_PATH=${BASE}"
 
+      - name: Type & syntax check
+        run: npm run check
+
       - name: Build site
         run: npm run build
 
