@@ -10,6 +10,13 @@ Astro · Markdown · 零后端 · 可直接部署到 GitHub Pages
 
 ---
 
+<p align="center">
+  <img src="docs/preview-light.png" alt="浅色模式 · 文章页" width="49%" />
+  <img src="docs/preview-dark.png" alt="深色模式 · 文章页" width="49%" />
+</p>
+
+---
+
 ## 这是什么
 
 一个**纯静态**的个人博客 / 笔记站。构建后产出的是普通的 HTML / CSS / JS 文件，不需要服务器、不需要数据库，扔到任何静态托管上就能跑。
