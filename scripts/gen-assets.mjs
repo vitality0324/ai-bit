@@ -145,7 +145,6 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
 await mkdir(path.join(pub, 'images'), { recursive: true });
 await writeFile(path.join(pub, 'favicon.svg'), favicon);
 await writeFile(path.join(pub, 'og-default.svg'), og);
-await writeFile(path.join(root, 'src/lib/og-template.ts'), `export const OG_SVG = ${JSON.stringify(og)};\n`);
 
 for (const c of covers) {
   await writeFile(path.join(pub, 'images', `${c.name}.svg`), coverSvg(c));
