@@ -214,7 +214,7 @@ const ORANGE = '#F5A074';
 | 位置 | **视频卡内部**右下角（相对视频面板 `position: absolute`） |
 | right / bottom | **28** / **22**（推荐） |
 | 布局 | 横向：圆形头像 + 昵称，`gap: 10`，垂直居中 |
-| 头像 | `https://ai-daily.tech/brand/logo.png`（项目内可 `staticFile('logo.png')`） |
+| 头像 | `https://ai-bit.tech/brand/logo.png`（项目内可 `staticFile('logo.png')`） |
 | 头像尺寸 | **52×52**，`borderRadius: 50%` |
 | 昵称 | **高老师的分享局** |
 | 昵称字号 / 字重 | **28** / **700** |
@@ -415,7 +415,7 @@ heroclip/
 │   └── HeroClip.tsx      # 主片卡核心
 ├── public/
 │   ├── source-zh-subs.mp4   # 已硬烧中文字幕的主片
-│   └── logo.png             # 品牌头像（可从 ai-daily.tech 拉取）
+│   └── logo.png             # 品牌头像（可从 ai-bit.tech 拉取）
 ├── package.json
 ├── tsconfig.json
 └── out/

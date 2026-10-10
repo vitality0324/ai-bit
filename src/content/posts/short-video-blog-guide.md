@@ -9,7 +9,7 @@ tags: ['博客站', '规范', '部署']
 
 高老师的分享局 — 短视频置顶评论的长文落地页，基于 [AstroPaper](https://github.com/satnaing/astro-paper)。
 
-- 线上：<https://ai-daily.tech>
+- 线上：<https://ai-bit.tech>
 - 仓库：<https://github.com/addunt/short-video-blog>
 
 ## 本地开发
@@ -82,7 +82,7 @@ git commit -m "add post: 文章标题"
 git push origin HEAD
 ```
 5. 等待 Vercel 自动部署完成
-6. 访问 `https://ai-daily.tech/p/{slug}/` 验证线上页面
+6. 访问 `https://ai-bit.tech/posts/{slug}/` 验证线上页面
 
 ## 提交账号（重要）
 

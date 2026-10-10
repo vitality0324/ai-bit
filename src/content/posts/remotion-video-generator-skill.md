@@ -84,7 +84,7 @@ remotion-video-generator/
 | --- | --- |
 | 版本 | v1.0.4 |
 | 体积 | 230 KB |
-| 下载 | <https://ai-daily.tech/skills/remotion-video-generator-v1.0.4.zip> |
+| 下载 | <https://ai-bit.tech/skills/remotion-video-generator-v1.0.4.zip> |
 | 原始仓库 | <https://github.com/addunt/short-video-blog> |
 
 解压即用，无需构建。放进你的 Agent 的 Skill 目录即可，不依赖任何特定 Agent。

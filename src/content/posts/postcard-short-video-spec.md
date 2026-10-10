@@ -53,7 +53,7 @@ tags: ['短视频', 'Remotion', 'React', 'PostCard', '贴文卡', '模板规范'
 
 | 元素 | 默认值 |
 | --- | --- |
-| 头像 | `https://ai-daily.tech/brand/logo.png` |
+| 头像 | `https://ai-bit.tech/brand/logo.png` |
 | 昵称 | `高老师的分享局` |
 | 头部日期 | 动态取当前日期，格式 `YYYY-MM-DD` |
 | 底部时间戳 | 动态取当前时间，格式 `HH:MM` + 换行 + `星期X` |
@@ -338,7 +338,7 @@ export const PostCard: React.FC = () => {
       <div style={{ position: 'absolute', inset: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ width: 880, backgroundColor: CARD, borderRadius: 36, padding: 50, display: 'flex', flexDirection: 'column', boxShadow: '0 8px 40px rgba(0,0,0,0.35)' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: 44, opacity: fade(0) }}>
-            <Img src="https://ai-daily.tech/brand/logo.png" style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover' }} />
+            <Img src="https://ai-bit.tech/brand/logo.png" style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover' }} />
             <div style={{ marginLeft: 18 }}>
               <div style={{ fontFamily: FONT, fontSize: 40, fontWeight: 700, color: TEXT, lineHeight: 1.3 }}>{NICKNAME}</div>
               <div style={{ fontFamily: FONT, fontSize: 28, color: GRAY, lineHeight: 1.4 }}>{DATE_STR}</div>

@@ -11,7 +11,7 @@ tags: ['短视频', 'Workflow', 'HyperFrames', '模板规范', '一镜到底']
 > **目标**：拿到一篇旁白文字后，按本手册产出一条与本账号既有风格完全一致的竖屏知识短视频。
 > **验收基准**：1080×1920 / 片长 = 配音时长 + 4.7s 引导层 / check 全绿（lint 0 error + 文字对比度 100% WCAG AA）/ 多模态读帧质检通过（内容不越安全区，相邻板边缘粉笔除外）/ 整体响度 -11.5 ~ -13 LUFS（2026-09-11 音量重平衡后）。作为短视频发布时，另交一张 **3:4 封面（1080×1440）**，做法见 §7。
 >
-> **代码与资源**：全部代码（引擎、渲染模板、工具脚本）、参考实例、图片/音频资源、封面壳打包在 **[blackboard-template.zip](https://ai-daily.tech/skills/blackboard-template.zip)** 中（文末附下载）。手册只写流程与规范，不复述代码。
+> **代码与资源**：全部代码（引擎、渲染模板、工具脚本）、参考实例、图片/音频资源、封面壳打包在 **[blackboard-template.zip](https://ai-bit.tech/skills/blackboard-template.zip)** 中（文末附下载）。手册只写流程与规范，不复述代码。
 
 ---
 
@@ -26,7 +26,7 @@ tags: ['短视频', 'Workflow', 'HyperFrames', '模板规范', '一镜到底']
 
 ## 2. 代码包与目录结构
 
-本手册与代码包 **[blackboard-template.zip](https://ai-daily.tech/skills/blackboard-template.zip)** 一起参考（代码、参考实例、图片/音频资源、封面壳全在里面）。解压后得到：
+本手册与代码包 **[blackboard-template.zip](https://ai-bit.tech/skills/blackboard-template.zip)** 一起参考（代码、参考实例、图片/音频资源、封面壳全在里面）。解压后得到：
 
 ```
 blackboard-template/
@@ -90,7 +90,7 @@ blackboard-template/
 
 ### Step 0 创建视频项目
 
-首次使用先解压 [blackboard-template.zip](https://ai-daily.tech/skills/blackboard-template.zip)，下文以解压出的 `blackboard-template/` 为根。
+首次使用先解压 [blackboard-template.zip](https://ai-bit.tech/skills/blackboard-template.zip)，下文以解压出的 `blackboard-template/` 为根。
 
 ```bash
 cd <blackboard-template>/template/tools
@@ -306,4 +306,4 @@ python3 -c "from PIL import Image; im=Image.open('cover-1080x1440.png'); assert 
 
 ## 模板工程包下载
 
-[⬇︎ blackboard-template.zip](https://ai-daily.tech/skills/blackboard-template.zip)（5.8MB，29 个文件）——内含渲染工程模板壳、引擎 `core.js`（画布/画板三态/打字机/镜头/CTA + 结构原语）、4 个工具脚本（new_video / tts / build_scenes / mix）、参考实例 hidden-state 三源文件、全部图片音频资源与素材署名记录，以及 `cover/`（3:4 封面 HTML 壳 + 渲染说明）。解压即得完整工程，配合本手册 §3 使用（成片见 Step 0–6，封面见 Step 7 与 §7）。
+[⬇︎ blackboard-template.zip](https://ai-bit.tech/skills/blackboard-template.zip)（5.8MB，29 个文件）——内含渲染工程模板壳、引擎 `core.js`（画布/画板三态/打字机/镜头/CTA + 结构原语）、4 个工具脚本（new_video / tts / build_scenes / mix）、参考实例 hidden-state 三源文件、全部图片音频资源与素材署名记录，以及 `cover/`（3:4 封面 HTML 壳 + 渲染说明）。解压即得完整工程，配合本手册 §3 使用（成片见 Step 0–6，封面见 Step 7 与 §7）。
