@@ -2,6 +2,7 @@
 title: 'AI 原生软件开发生命周期实战手册（中文翻译）'
 description: 'Anthropic 官方 Playbook 中文翻译：当代码不再是瓶颈时，如何用 AI 重构计划、设计、构建、测试、部署与维护六个阶段。'
 pubDate: 2026-08-26
+cover: '/images/cover-1.svg'
 tags: ['AI工程', 'Claude', 'SDLC', 'Agent工作流', '翻译']
 ---
 > 原文：The AI-Native SDLC Playbook

@@ -2,6 +2,7 @@
 title: '黑板长卷短视频 · 制作流程手册（一镜到底 · 无限画布）'
 description: '基于 HyperFrames + edge-tts 的竖屏知识短视频模板规范：无限画布黑板长卷 + 分镜板三态 + 打字机同步，发布时另附 3:4 大字报封面。附完整模板工程包下载与 Agent 可执行的制作流程。'
 pubDate: 2026-09-07
+cover: '/images/cover-2.svg'
 tags: ['短视频', 'Workflow', 'HyperFrames', '模板规范', '一镜到底']
 ---
 # 黑板长卷短视频 · 制作流程手册（一镜到底 · 无限画布）

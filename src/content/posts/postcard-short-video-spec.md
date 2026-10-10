@@ -2,6 +2,7 @@
 title: '贴文卡（PostCard）短视频制作规范'
 description: '基于 Remotion + React 的竖屏短视频模板规范：模拟社交媒体帖文截图的柔白卡片风格短视频制作指南。'
 pubDate: 2026-08-24
+cover: '/images/cover-6.svg'
 tags: ['短视频', 'Remotion', 'React', 'PostCard', '贴文卡', '模板规范']
 ---
 > 基于 Remotion + React 的竖屏短视频模板规范。

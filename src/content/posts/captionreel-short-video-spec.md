@@ -2,6 +2,7 @@
 title: '字卡影快闪短视频（CaptionReel）制作与排版布局规范'
 description: '基于 Remotion + React 的竖屏短视频模板规范：上半部分文字卡、下半部分影像素材，节奏明快的字卡影快闪短视频制作指南。'
 pubDate: 2026-08-21
+cover: '/images/cover-3.svg'
 tags: ['短视频', 'Remotion', 'React', 'CaptionReel', '字卡影', '模板规范']
 ---
 > 基于 Remotion + React 的竖屏短视频模板规范。

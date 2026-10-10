@@ -2,6 +2,7 @@
 title: '快讯风竖屏短视频（NewsFlash）制作与排版布局规范'
 description: '基于 HyperFrames 的快讯风竖屏短视频模板规范：标题、副标题、素材卡、正文四层结构，浅色纸感配色与 GSAP 级联动效。'
 pubDate: 2026-09-13
+cover: '/images/cover-5.svg'
 tags: ['短视频', 'HyperFrames', '模板规范']
 ---
 > 基于 HyperFrames（单 HTML + GSAP 单条 paused 时间轴）的快讯风竖屏短视频模板规范。

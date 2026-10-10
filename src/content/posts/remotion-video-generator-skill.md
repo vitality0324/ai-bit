@@ -2,6 +2,7 @@
 title: 'Remotion 视频生成 Skill 工具包：给 AI Agent 的开箱即用流水线'
 description: '给 AI Agent 用的 Remotion 视频生成 Skill 工具包，标准 Agent Skills 格式，Cursor / Claude Code / Codex / CodeBuddy 通用。含 6 个子 Skill、24 个模板与 8 个实战环境坑的规避方案。'
 pubDate: 2026-08-30
+cover: '/images/cover-2.svg'
 tags: ['Remotion', 'AI视频']
 ---
 一个可直接安装的 Skill 工具包，装到 Agent 上之后，它就能听懂「帮我做个 60 秒解说视频」这类需求，并自己走完**环境检测 → 分镜规划 → 生成 Remotion 代码 → 渲染成 MP4** 的完整流程。

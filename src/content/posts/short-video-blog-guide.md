@@ -2,6 +2,7 @@
 title: '「高老师的分享局」博客发布流程与规范'
 description: 'short-video-blog 的新增文章、slug 命名、frontmatter 字段说明与 Vercel 自动部署完整流程。'
 pubDate: 2026-08-24
+cover: '/images/cover-3.svg'
 tags: ['博客站', '规范', '部署']
 ---
 # short-video-blog

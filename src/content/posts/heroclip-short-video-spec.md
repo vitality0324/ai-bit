@@ -2,6 +2,7 @@
 title: '主片卡（HeroClip）短视频制作规范'
 description: '基于 Remotion + React 的竖屏短视频模板规范：纯黑画布、顶部标题/副标题、居中横屏主片、视频卡右下角半透明品牌水印。'
 pubDate: 2026-09-30
+cover: '/images/cover-1.svg'
 tags: ['短视频', 'Remotion', 'React', 'HeroClip', '主片卡', '模板规范']
 ---
 > 基于 Remotion + React 的竖屏短视频模板规范。

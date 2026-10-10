@@ -2,6 +2,7 @@
 title: 'MiniMax H3 - 1K 视频数据集资源'
 description: 'Ostris 开源的 1K MiniMax H3 生成视频数据集，覆盖多种主题和风格，包含 YouTube 1.5 小时完整浏览和 Hugging Face 下载链接。'
 pubDate: 2026-08-12
+cover: '/images/cover-3.svg'
 tags: ['MiniMax', 'H3', '视频数据集', 'HuggingFace', 'AI视频']
 ---
 > 1K MiniMax H3 videos covering a wide scope of topics and styles to test the model’s capabilities.

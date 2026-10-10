@@ -2,6 +2,7 @@
 title: 'Qwen3.8-27B 本地部署完整教程：从显存选型到 IDE/Agent 接入'
 description: 'Qwen3.8-27B 本地部署完整指南：显存与量化选型、GGUF+llama.cpp、FP8+vLLM、OpenAI 兼容接口配置与五大常见坑。'
 pubDate: 2026-08-21
+cover: '/images/cover-1.svg'
 tags: ['Qwen', 'Qwen3.8', '本地部署', 'vLLM', 'llama.cpp', '大模型']
 ---
 > **💡 小提示**：把本文链接直接复制给你的 AI Agent（如 Claude Code、Knot 或任意支持工具调用的助手），它就能根据你的硬件环境自动执行下载、安装、启动和接口配置，帮你完成本地部署。

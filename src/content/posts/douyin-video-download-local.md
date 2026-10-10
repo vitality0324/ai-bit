@@ -2,6 +2,7 @@
 title: '抖音视频下载本地方案：Playwright + yt-dlp 完整脚本'
 description: '在本地或云端 Ubuntu 环境中，用 Playwright 获取抖音有效 cookie，再用 yt-dlp 下载公开视频为 MP4 的完整方案与避坑指南。'
 pubDate: 2026-08-21
+cover: '/images/cover-5.svg'
 tags: ['抖音', '视频下载', 'Playwright', 'yt-dlp', 'Python', '爬虫']
 ---
 > 适用场景：在本地/云端 Ubuntu 环境中，将抖音分享链接或视频页链接下载为 MP4。

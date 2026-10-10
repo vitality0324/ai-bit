@@ -2,6 +2,7 @@
 title: '杂志撕纸风 Motion Graphics · 制作流程手册（Magazine Collage MG）'
 description: '基于 Python + Pillow + ffmpeg 的竖屏杂志撕纸风 MG 模板规范：场景演示、旁白对齐、零语义遮挡；附模板工程包与可执行制作流程。'
 pubDate: 2026-09-20
+cover: '/images/cover-2.svg'
 tags: ['短视频', 'Workflow', 'Motion Graphics']
 ---
 # 杂志撕纸风 Motion Graphics · 制作流程手册（Magazine Collage MG）

@@ -2,6 +2,7 @@
 title: 'edge-tts 配音流水线：音色、语速、字幕与响度标准化'
 description: '用 edge-tts 给视频配音的完整流程：14 个中文音色逐一带试听、语速实测、SRT 字幕切分、-16 LUFS 响度标准化，以及音频驱动时间轴。'
 pubDate: 2026-08-30
+cover: '/images/cover-6.svg'
 tags: ['Edge TTS', 'AI配音']
 ---
 > 本文面向 **Agent**：如果你被委派给视频配旁白，按第四节的五步顺序执行即可，代码可直接抄改。

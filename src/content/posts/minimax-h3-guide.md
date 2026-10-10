@@ -2,6 +2,7 @@
 title: 'MiniMax H3 本地部署完整教程'
 description: 'MiniMax H3 开源本地部署完整图文：显存与量化选型、ComfyUI 五步走、提示词进阶与常见问题排查。'
 pubDate: 2026-08-09
+cover: '/images/cover-4.svg'
 tags: ['MiniMax', 'H3', 'ComfyUI', '本地部署', 'AI视频']
 ---
 ---

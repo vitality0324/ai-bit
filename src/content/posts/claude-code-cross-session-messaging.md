@@ -2,6 +2,7 @@
 title: 'Claude Code 新功能：会话间通信完整指南'
 description: 'Claude Code v2.1.224 上线跨会话通信：多个终端会话可互相发消息、传递摘要、接力任务。本文详解功能原理、使用方式、适用场景与安全边界。'
 pubDate: 2026-08-10
+cover: '/images/cover-4.svg'
 tags: ['Claude Code', 'Claude', 'AI编程', '效率工具', '跨会话通信']
 ---
 ## 一、这个功能是什么？
