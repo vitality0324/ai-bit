@@ -1,5 +1,5 @@
 /**
- * 生成站点静态资源（favicon / 社交分享图 / 文章封面）。
+ * 生成站点静态资源（社交分享图 / 文章封面）。favicon 见 public/brand/。
  * 仅在需要调整视觉时手动运行：node scripts/gen-assets.mjs
  */
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -9,20 +9,6 @@ import sharp from 'sharp';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const pub = path.join(root, 'public');
-
-/* ---------------- favicon ---------------- */
-const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4f46e5"/>
-      <stop offset="0.55" stop-color="#7c3aed"/>
-      <stop offset="1" stop-color="#0ea5e9"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="16" fill="url(#g)"/>
-  <path d="M20 45 L32 19 L44 45" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M25.5 36.5 H38.5" stroke="#fff" stroke-width="5.5" stroke-linecap="round"/>
-</svg>`;
 
 /* ---------------- 封面模板 ---------------- */
 const covers = [
@@ -128,13 +114,6 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
     ${Array.from({ length: 11 }, (_, i) => `<line x1="${i * 120}" y1="0" x2="${i * 120}" y2="630"/>`).join('')}
   </g>
 
-  <g transform="translate(96 150)">
-    <rect width="76" height="76" rx="20" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-opacity="0.25"/>
-    <g transform="translate(9 9)">
-      <path d="M12 52 L29 15 L46 52" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M19.5 40 H38.5" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
-    </g>
-  </g>
 
   <text x="96" y="330" font-family="Helvetica, Arial, sans-serif" font-size="86" font-weight="700" fill="#ffffff" letter-spacing="-2">AI Bit</text>
   <text x="96" y="392" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#ffffff" fill-opacity="0.62">记录关于 AI、工程与产品的思考碎片</text>
@@ -143,7 +122,7 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
 </svg>`;
 
 await mkdir(path.join(pub, 'images'), { recursive: true });
-await writeFile(path.join(pub, 'favicon.svg'), favicon);
+// favicon 现在由 public/brand/ 下的品牌 logo 生成，不再用脚本里的占位图形
 await writeFile(path.join(pub, 'og-default.svg'), og);
 
 for (const c of covers) {
@@ -151,6 +130,25 @@ for (const c of covers) {
 }
 
 // 社交平台不支持 SVG，导出一张 PNG 作为分享图
-await sharp(Buffer.from(og)).png({ quality: 92 }).toFile(path.join(pub, 'og-default.png'));
+// 左上角的品牌标识用 public/brand/logo.png 合成，尺寸与位置和 SVG 里的留白区一致
+const ogBase = await sharp(Buffer.from(og), { density: 144 })
+  .resize(1200, 630)
+  .png()
+  .toBuffer();
+
+const markSize = 76;
+const markMask = Buffer.from(
+  `<svg width="${markSize}" height="${markSize}"><rect width="${markSize}" height="${markSize}" rx="20" ry="20" fill="#fff"/></svg>`
+);
+const brandMark = await sharp(path.join(pub, 'brand', 'logo.png'))
+  .resize(markSize, markSize, { fit: 'cover' })
+  .composite([{ input: markMask, blend: 'dest-in' }])
+  .png()
+  .toBuffer();
+
+await sharp(ogBase)
+  .composite([{ input: brandMark, left: 96, top: 150 }])
+  .png({ compressionLevel: 9 })
+  .toFile(path.join(pub, 'og-default.png'));
 
 console.log('✅ assets generated');

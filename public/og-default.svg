@@ -29,13 +29,6 @@
     <line x1="0" y1="0" x2="0" y2="630"/><line x1="120" y1="0" x2="120" y2="630"/><line x1="240" y1="0" x2="240" y2="630"/><line x1="360" y1="0" x2="360" y2="630"/><line x1="480" y1="0" x2="480" y2="630"/><line x1="600" y1="0" x2="600" y2="630"/><line x1="720" y1="0" x2="720" y2="630"/><line x1="840" y1="0" x2="840" y2="630"/><line x1="960" y1="0" x2="960" y2="630"/><line x1="1080" y1="0" x2="1080" y2="630"/><line x1="1200" y1="0" x2="1200" y2="630"/>
   </g>
 
-  <g transform="translate(96 150)">
-    <rect width="76" height="76" rx="20" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-opacity="0.25"/>
-    <g transform="translate(9 9)">
-      <path d="M12 52 L29 15 L46 52" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M19.5 40 H38.5" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
-    </g>
-  </g>
 
   <text x="96" y="330" font-family="Helvetica, Arial, sans-serif" font-size="86" font-weight="700" fill="#ffffff" letter-spacing="-2">AI Bit</text>
   <text x="96" y="392" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#ffffff" fill-opacity="0.62">记录关于 AI、工程与产品的思考碎片</text>
