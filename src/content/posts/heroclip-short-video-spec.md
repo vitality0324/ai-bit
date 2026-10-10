@@ -10,7 +10,7 @@ tags: ['短视频', 'Remotion', 'React', 'HeroClip', '主片卡', '模板规范'
 > - 中文名：**主片卡**
 > - 英文名：**HeroClip**
 >
-> 「主片卡」指**纯黑竖屏画布上，顶部放标题与副标题，中间居中铺满宽度的横屏主片（源片可自带硬烧中文字幕），并在视频卡右下角叠半透明「高老师的分享局」水印的短视频**。
+> 「主片卡」指**纯黑竖屏画布上，顶部放标题与副标题，中间居中铺满宽度的横屏主片（源片可自带硬烧中文字幕），并在视频卡右下角叠半透明「下海研究员」水印的短视频**。
 
 ---
 
@@ -207,7 +207,7 @@ const ORANGE = '#F5A074';
 
 ## 五、品牌水印（固定）
 
-本模板**固定**使用「高老师的分享局」水印，不做成可配置多品牌。
+本模板**固定**使用「下海研究员」水印，不做成可配置多品牌。
 
 | 属性 | 值 |
 | --- | --- |
@@ -216,7 +216,7 @@ const ORANGE = '#F5A074';
 | 布局 | 横向：圆形头像 + 昵称，`gap: 10`，垂直居中 |
 | 头像 | `https://ai-bit.tech/brand/logo.png`（项目内可 `staticFile('logo.png')`） |
 | 头像尺寸 | **52×52**，`borderRadius: 50%` |
-| 昵称 | **高老师的分享局** |
+| 昵称 | **下海研究员** |
 | 昵称字号 / 字重 | **28** / **700** |
 | 昵称颜色 | `rgba(255,255,255,0.9)` |
 | 整体透明度 | **0.5**（半透明，无深色胶囊底） |
@@ -230,7 +230,7 @@ const WATERMARK_RIGHT = 28;
 const WATERMARK_BOTTOM = 22;
 const NICKNAME_SIZE = 28;
 const WATERMARK_OPACITY = 0.5;
-const NICKNAME = '高老师的分享局';
+const NICKNAME = '下海研究员';
 
 <div
   style={{
@@ -350,7 +350,7 @@ const TITLE = (
   </>
 );
 const SUBTITLE = '马斯克给年轻人的生存建议';
-const NICKNAME = '高老师的分享局';
+const NICKNAME = '下海研究员';
 
 export const HeroClip: React.FC = () => {
   return (

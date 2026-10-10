@@ -54,7 +54,7 @@ tags: ['短视频', 'Remotion', 'React', 'PostCard', '贴文卡', '模板规范'
 | 元素 | 默认值 |
 | --- | --- |
 | 头像 | `https://ai-bit.tech/brand/logo.png` |
-| 昵称 | `高老师的分享局` |
+| 昵称 | `下海研究员` |
 | 头部日期 | 动态取当前日期，格式 `YYYY-MM-DD` |
 | 底部时间戳 | 动态取当前时间，格式 `HH:MM` + 换行 + `星期X` |
 
@@ -289,7 +289,7 @@ const TEXT = '#1A1A1A';
 const ORANGE = '#F5A074';
 const GRAY = '#999999';
 
-const NICKNAME = '高老师的分享局';
+const NICKNAME = '下海研究员';
 
 const Hi: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span style={{ color: ORANGE, fontWeight: 800 }}>{children}</span>
