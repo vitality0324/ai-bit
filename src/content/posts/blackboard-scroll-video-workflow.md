@@ -22,7 +22,7 @@ tags: ['短视频', 'Workflow', 'HyperFrames', '模板规范', '一镜到底']
 - **安全区（硬约束）**：上下 300px、左右 100px（内容区 880×1320）；所有内容含动画过程不得越出。卡片上下内边距 34px、图示内容整体缩进 31px。
 - **文字**：正文 44px 上限，按句子分块自然折行，打字机逐字出现（15 字/秒，逗号停 0.16s、句号停 0.32s），关键词着色并弹跳。
 - **音频**：edge-tts 音色 `zh-CN-YunjianNeural` 语速 +30%，loudnorm 归一到 **-14 LUFS**；混音时旁白再 **+2 dB**（≈ -12 LUFS，限幅保护峰值），BGM 固定用 `c260.mp3`（DJ L《C260》）volume **0.22**（≈ -21.3 LUFS）无闪避，淡入 1.5s / 淡出 5.5s。人声与 BGM 响度差约 9 LU（2026-09-11 重平衡：原 0.3 配方 BGM 偏大、旁白偏小）。
-- **结尾**：镜头拉远看整面黑板 → 覆盖「下海研究员」关注引导卡（logo 用 `logo.png`。
+- **结尾**：镜头拉远看整面黑板 → 覆盖「下海研究员」关注引导卡；品牌名与 logo 必须从项目 `brand.json`、`brand/logo.png` 注入，禁止在模板或单期项目中硬编码其他账号。
 
 ## 2. 代码包与目录结构
 
@@ -53,6 +53,8 @@ blackboard-template/
 ├── script.txt               ← 旁白文字，空行分段（唯一文字输入）
 ├── config.js                ← 项目参数
 ├── boards.js                ← 图示创作（Agent 独立实现）
+├── brand.json               ← 品牌身份：账号名与可选自定义 logo 路径
+├── brand/logo.png           ← 项目级关注卡 logo（默认「下海研究员」）
 ├── cover/                   ← 仅短视频发布时需要（Step 7：从包内 cover/ 复制后改槽位）
 │   ├── cover.html
 │   └── cover-1080x1440.png  ← HTML 截图产物
@@ -73,7 +75,7 @@ blackboard-template/
 | --- | --- |
 | `board_wall.jpg` | 烘焙好的整面黑板墙（板面+木框一体），camPan 背景 |
 | `wood_frame_9.png` | 实木框九宫格贴图（卡片 border-image） |
-| `logo.png` | 账号 logo（结尾引导卡） |
+| `logo.png` | 模板内置账号 logo；项目生成时复制为 `brand/logo.png` |
 | `bgm/c260.mp3` | 背景音乐（DJ L《C260》，129.3s） |
 | `wood_frame_src.jpg` | 木纹原图（CC BY-SA 4.0，仅重制贴图时用） |
 
@@ -81,7 +83,8 @@ blackboard-template/
 
 | 脚本 | 作用 |
 | --- | --- |
-| `new_video.py <项目路径>` | 视频项目脚手架（创建独立项目目录 + 自包含渲染工程；已存在则刷新渲染工程，不覆盖源文件） |
+| `new_video.py <项目路径>` | 视频项目脚手架（创建独立项目目录 + 自包含渲染工程；生成项目级 `brand.json` / `brand/logo.png`；已存在则刷新渲染工程，不覆盖源文件） |
+| `check_brand.py <项目路径>` | 品牌门禁：校验账号名、CTA DOM 文案、logo 路径与哈希；不通过禁止渲染 |
 | `tts.py <视频项目>` | script.txt → 配音 `build/audio/narration.m4a`（-14 LUFS）+ 各段 srt/wav |
 | `build_scenes.py <视频项目>` | 配音 srt → `build/composition/scenes_data.js`（打字机时间轴） |
 | `mix.py <视频项目> [--mux <video>]` | C260 固化配方混音；`--mux` 时合成 `build/final.mp4` |
@@ -97,7 +100,9 @@ cd <blackboard-template>/template/tools
 python3 new_video.py ../../my-video   # 项目名自取；一个文档 → 一个独立项目目录
 ```
 
-产出项目目录骨架。**★ 闸门 1：分段**——把用户的旁白文字填入 `script.txt`（**严格原文，不优化**；空行分段，一段=一块画板），把分段结果给用户确认。
+产出项目目录骨架，并自动生成 `brand.json` 与 `brand/logo.png`。本模板固定并校验「下海研究员」，不要在 `index.html` 或 `boards.js` 里硬编码账号；如未来明确要切换账号，必须同步修改品牌配置、项目 logo 与 `check_brand.py` 的校验值。
+
+**★ 闸门 1：分段**——把用户的旁白文字填入 `script.txt`（**严格原文，不优化**；空行分段，一段=一块画板），把分段结果给用户确认。
 
 ### Step 1 配音
 
@@ -122,10 +127,13 @@ python3 build_scenes.py ../../my-video
 ### Step 4 检查与渲染
 
 ```bash
+python3 <blackboard-template>/template/tools/check_brand.py ../../my-video
 cd ../../my-video/build/composition
 npm run check     # 必须全绿：lint 0 error + 文字对比度全部 WCAG AA
 npm run render    # 约 1-3 分钟，输出 renders/composition_*.mp4
 ```
+
+`check_brand.py` 会同时校验 `brand.json` 的账号名、CTA DOM 文案、`brand/logo.png` 路径与文件哈希；任何一项不一致都禁止进入渲染。
 
 ### Step 5 质检（多模态读帧）
 
@@ -134,6 +142,7 @@ npm run render    # 约 1-3 分钟，输出 renders/composition_*.mp4
 - 内容是否越出安全区（上下 300px、左右 100px）；边缘轻微越界若为相邻画板的边缘粉笔（背景允许溢出）可放行
 - 图示与文案语义匹配、无文字贴木框、光点 fade 不越归档
 - 打字机进度与画面元素对应（正在讲的板应是点亮态）
+- 结尾 CTA 文案必须为 `下海研究员`，logo 必须与 `brand/logo.png` 一致；不得出现模板示例账号
 
 发现问题改 boards.js / config.js 后回到 Step 4。
 
@@ -213,12 +222,13 @@ function buildBoards(ctx) {
 
 ## 6. 质量清单（交付前逐项打勾）
 
+- `check_brand.py` 通过：CTA 文案为「下海研究员」，且 `brand/logo.png` 与配置一致
 - check 全绿（lint 0 error，对比度 100% WCAG AA）
 - 多模态读帧质检：内容不越安全区（相邻板边缘粉笔除外），图示语义匹配、三态正确
 - 每块画板关键帧目检：图示与文案语义匹配、无文字贴木框、动画元素不越画板
 - 打字机与配音同步（抽查 2-3 段首句）
 - final.mp4 时长 = config.duration；整体响度 -11.5 ~ -13 LUFS，真峰 < 0 dBTP
-- 开场无全景跳入（直接第一块板）；结尾 CTA 卡 logo/箭头方向正常
+- 开场无全景跳入（直接第一块板）；结尾 CTA 卡账号名/logo/箭头方向正常
 - 作为短视频发布：封面 1080×1440，由 `cover.html` 截图得到（禁止 AI 生图）；槽位已换成当期文案，不是示例期原文
 - 封面 PNG 自检过：标题一眼可读、在框内、没有挤成难看三行；印章/圆章不压中部文案；对比度够；图形元素 ≤3 类
 - 用户确认封面口味（闸门 5）
@@ -306,4 +316,4 @@ python3 -c "from PIL import Image; im=Image.open('cover-1080x1440.png'); assert 
 
 ## 模板工程包下载
 
-[⬇︎ blackboard-template.zip](https://ai-bit.tech/skills/blackboard-template.zip)（5.8MB，29 个文件）——内含渲染工程模板壳、引擎 `core.js`（画布/画板三态/打字机/镜头/CTA + 结构原语）、4 个工具脚本（new_video / tts / build_scenes / mix）、参考实例 hidden-state 三源文件、全部图片音频资源与素材署名记录，以及 `cover/`（3:4 封面 HTML 壳 + 渲染说明）。解压即得完整工程，配合本手册 §3 使用（成片见 Step 0–6，封面见 Step 7 与 §7）。
+[⬇︎ blackboard-template.zip](https://ai-bit.tech/skills/blackboard-template.zip)（约 6MB）——内含渲染工程模板壳、引擎 `core.js`（画布/画板三态/打字机/镜头/CTA + 结构原语）、5 个工具脚本（new_video / tts / build_scenes / check_brand / mix）、参考实例 hidden-state 三源文件、项目级品牌配置与「下海研究员」logo、全部图片音频资源与素材署名记录，以及 `cover/`（3:4 封面 HTML 壳 + 渲染说明）。解压即得完整工程，配合本手册 §3 使用（成片见 Step 0–6，封面见 Step 7 与 §7）。
